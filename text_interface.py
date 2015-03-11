@@ -3,12 +3,17 @@ import webbrowser
 from Statistics import longest_flight_in_the_network, shortest_flight_in_the_network, average_distance_of_all_flights, \
     biggest_city_served_by_CSAir, smallest_city_served_by_CSAir, average_population_of_all_cities, \
     cities_by_continent_served_by_CSAir, CSAir_hubs_cities
+from add_data_from_file import add_data_from_file
+from edit_data import edit_data
 from graph_builder import get_set_of_cities, get_set_of_route, get_set_of_data_sources, build_graph_from_file, \
     build_graph, get_graph
+from route_info import get_route_info
+from save_data import save_data
+from shortest_route import shortest_route
 
 __author__ = 'Bruno'
 
-global graph
+global graph_CSAir
 global set_of_cities
 global set_of_route
 global set_of_data_sources
@@ -18,16 +23,16 @@ def main():
     """
     Loop that keep getting user choice and displaying what he want
     """
-    global graph
-    graph = get_graph()
+    global graph_CSAir
+    graph_CSAir = get_graph()
     global set_of_cities
-    set_of_cities = get_set_of_cities()
+    set_of_cities = graph_CSAir.get_set_of_cities()
     global set_of_route
-    set_of_route = get_set_of_route()
+    set_of_route = graph_CSAir.get_set_of_routes()
     global set_of_data_sources
     set_of_data_sources = get_set_of_data_sources()
     option = print_menu()
-    while (option != "5"):
+    while (option != "0"):
         if option == "1":
             print_city_name_and_code()
         elif option == "2":
@@ -38,6 +43,16 @@ def main():
             print_selected_statistical_information(statistical_option)
         elif option == "4":
             open_map()
+        elif option == "5":
+            edit_data()
+        elif option == "6":
+            save_data()
+        elif option == "7":
+            get_route_info()
+        elif option == "8":
+            shortest_route()
+        elif option == "9":
+            add_data_from_file()
         else:
             print "Invalid choice"
         option = print_menu()
@@ -53,7 +68,12 @@ def print_menu():
     print "2. Get info about a city"
     print "3. Statistical info about CSAir"
     print "4. Open map"
-    print "5. Close system"
+    print "5. Edit data"
+    print "6. Save data"
+    print "7. Get route info"
+    print "8. Get shortest route"
+    print "9. Add data from file"
+    print "0. Close system"
     return raw_input(">> ")
 
 def print_statistical_menu():
@@ -216,7 +236,7 @@ def print_city_informations(code):
     """
     if code in set_of_cities:
         print set_of_cities[code]
-        list_adj_city = graph[code]
+        list_adj_city = graph_CSAir.get_list_adj_of_city(code)
         print "Possible destinations: "
         for code_destination, route in list_adj_city.items():  # run over the list of cities which have flies non-stop connecting
             city_destination = set_of_cities[code_destination]
@@ -226,10 +246,11 @@ def print_city_informations(code):
 
 def open_map():
     request = "http://www.gcmap.com/mapui?P="
-    for code_origin, list_of_code_destination in graph.items():
+    for code_origin, list_of_code_destination in graph_CSAir.get_graph().items():
         for code_destination in list_of_code_destination:
             request += code_origin + "-" + code_destination + ",+"
     webbrowser.open(request)
+
 
 if __name__ == "__main__":
     main()

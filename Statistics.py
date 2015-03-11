@@ -2,16 +2,21 @@ from graph_builder import get_set_of_cities, get_set_of_route, get_set_of_data_s
 
 __author__ = 'Bruno'
 
+# global set_of_cities
+# set_of_cities = get_set_of_cities()
+# global set_of_route
+# set_of_route = get_set_of_route()
+# global set_of_data_sources
+# set_of_data_sources = get_set_of_data_sources()
+# global graph_CSAir
+# graph_CSAir = get_graph()
 
+global graph_CSAir
+graph_CSAir = get_graph()
 global set_of_cities
-set_of_cities = get_set_of_cities()
+set_of_cities = graph_CSAir.get_set_of_cities()
 global set_of_route
-set_of_route = get_set_of_route()
-global set_of_data_sources
-set_of_data_sources = get_set_of_data_sources()
-global graph
-graph = get_graph()
-
+set_of_route = graph_CSAir.get_set_of_routes()
 
 def longest_flight_in_the_network():
     """
@@ -99,7 +104,7 @@ def cities_by_continent_served_by_CSAir():
 def CSAir_hubs_cities():
     list_of_cities = []
     number_of_routes = None
-    for code, list_of_routes in graph.items():
+    for code, list_of_routes in graph_CSAir.get_graph().items():
         if number_of_routes == None:
             number_of_routes = len(list_of_routes)
             list_of_cities.append(code)

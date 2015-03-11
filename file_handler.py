@@ -20,15 +20,6 @@ def read_file(file_name):
     return content
 
 
-def main():
-    json_content = read_file("map_data.json")
-    json_data = json.loads(json_content)
-    set_of_cities = load_cities_from_json(json_data)
-    set_of_route = load_routes_from_json(json_data)
-    set_of_data_sources = load_data_sources_from_json(json_data)
-    # print set_of_data_sources
-
-
 def load_cities_from_json(json_data):
     """
     Function that get the Json and return a dictionary of all cities

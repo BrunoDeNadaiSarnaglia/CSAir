@@ -1,17 +1,18 @@
 import json
 
 from file_handler import read_file, load_cities_from_json, load_routes_from_json, load_data_sources_from_json
+from graph import Graph
 
 
 __author__ = 'Bruno'
 
-global graph
+global graph_CSAir
 global set_of_cities
 global set_of_route
 global set_of_data_sources
 
 def get_graph():
-    return graph
+    return graph_CSAir
 
 def get_set_of_cities():
     """
@@ -73,8 +74,9 @@ def build_graph():
     function that when called build all data structures
     :return:
     """
-    global graph
-    graph = build_graph_from_file("map_data.json")
+    read_json_data('map_data.json')
+    global graph_CSAir
+    graph_CSAir = Graph(set_of_cities, set_of_route)
+
 
 build_graph()
-
